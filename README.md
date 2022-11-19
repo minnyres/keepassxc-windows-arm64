@@ -34,13 +34,13 @@ Open the "Developer PowerShell for VS 2022" in Windows Terminal. Install the dep
 ```
 .\vcpkg.exe install argon2 botan minizip readline zlib libqrencode icu --triplet=arm64-windows
 ```
-Set environment variables
+Set up variables
 ```
-$env:vcpkg_dir="d:\git\vcpkg"
-$env:jom_dir="d:\jom_1_1_3"
-$env:qt_install_dir="d:\Qt\Qt_5.15.7_vs2022_arm64"
-$env:msys2_dir="d:\msys64"
-$env:keepassxc_install_dir="d:\keepassxc"
+$vcpkg_dir="d:\git\vcpkg"
+$jom_dir="d:\jom_1_1_3"
+$qt_install_dir="d:\Qt\Qt_5.15.7_vs2022_arm64"
+$msys2_dir="d:\msys64"
+$keepassxc_install_dir="d:\keepassxc"
 ```
 where 
 + `vcpkg_dir` is the path of vcpkg root directory
