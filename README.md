@@ -1,2 +1,50 @@
 # keepassxc-windows-arm64
-KeePassXC for Windows on ARM64
+KeePassXC is a modern, secure, and open-source password manager that stores and manages your most sensitive information. This repository distributes KeePassXC binaries for Windows on ARM64 (WoA).
+
+Please go to [releases](https://github.com/minnyres/keepassxc-windows-arm64/releases) for the downloads.
+
+## How to build
+
+It is natively built on Windows 11 ARM64.
+
+### Preparations
+
+You need to install the following tools to build KeePassXC yourself.
++ [Visual Studio 2022 on ARM64](https://devblogs.microsoft.com/visualstudio/arm64-visual-studio-is-officially-here/)
++ Windows Terminal from Microsoft Store
++ [Jom](https://wiki.qt.io/Jom)
++ [MSYS2-64bit](https://www.msys2.org/)
++ [vcpkg](https://vcpkg.io/en/index.html)
+
+After installing MSYS2, add this in `/etc/pacman.conf` file
+```
+[clangarm64]
+Include = /etc/pacman.d/mirrorlist.mingw
+```
+and run
+```
+pacman -Syy && pacman -S gperf bison flex mingw-w64-clang-aarch64-cmake mingw-w64-i686-asciidoctor 
+```
+
+In Windows Terminal, set the "Command line" for "Developer PowerShell for VS 2022" by replacing `-host_arch=x64` with `-host_arch=arm64`.
+
+### Build 
+
+Open the "Developer PowerShell for VS 2022" in Windows Terminal. Install the dependencies (except Qt) via vcpkg:
+```
+.\vcpkg.exe install argon2 botan minizip readline zlib libqrencode icu --triplet=arm64-windows
+```
+Set environment variables
+```
+$env:vcpkg_dir="d:\git\vcpkg"
+$env:jom_dir="d:\jom_1_1_3"
+$env:qt_install_dir="d:\Qt\Qt_5.15.7_vs2022_arm64"
+$env:msys2_dir="d:\msys64"
+$env:keepassxc_install_dir="d:\keepassxc"
+```
+where 
++ `vcpkg_dir` is the path of vcpkg root directory
++ `jom_dir` is the path of jom root directory
++ `qt_install_dir` is the place to install Qt
++ `msys2_dir` is the path of MSYS2 root directory
++ `keepassxc_install_dir` is the place to install KeePassXC
