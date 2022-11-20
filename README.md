@@ -49,8 +49,9 @@ where
 + `msys2_dir` is the path of MSYS2 root directory
 + `keepassxc_install_dir` is the place to install KeePassXC
 
-Now run the PowerShell script to build Qt
+Now run the PowerShell script to build Qt and KeePassXC
 ```
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 .\build-qt.ps1
+.\build-keepassxc.ps1
 ```
