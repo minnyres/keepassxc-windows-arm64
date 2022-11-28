@@ -7,6 +7,8 @@ Please go to [releases](https://github.com/minnyres/keepassxc-windows-arm64/rele
 
 It is natively built on Windows 11 ARM64.
 
+![terminal](https://user-images.githubusercontent.com/40790553/204278525-3034871a-4afb-49b3-84de-5b2398ba9434.png)
+
 ### Preparations
 
 You need to install the following tools to build KeePassXC yourself.
