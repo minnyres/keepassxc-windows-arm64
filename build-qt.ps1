@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-$qt_ver = "5.15.7"
+$qt_ver = "5.15.9"
 $qt_main_ver = "5.15"
 $qt_url = "https://download.qt.io/archive/qt/$qt_main_ver/$qt_ver/submodules/"
 $qtbase = "qtbase-everywhere-opensource-src-$qt_ver.zip"
@@ -22,13 +22,13 @@ Expand-Archive -LiteralPath "$qtsvg" -DestinationPath $pwd
 Expand-Archive -LiteralPath "$qttranslations" -DestinationPath $pwd
 Expand-Archive -LiteralPath "$qtimageformats" -DestinationPath $pwd
 
-$env:path += ";$qt_install_dir\bin;$jom_dir;$vcpkg_dir\packages\zlib_arm64-windows\bin;$vcpkg_dir\packages\icu_arm64-windows\bin;$msys2_dir\usr\bin"
+$env:path += ";$qt_install_dir\bin;$jom_dir;$vcpkg_dir\packages\zlib_arm64-windows\bin;$msys2_dir\usr\bin"
 $current_dir = $pwd
 
 Set-Location  "qtbase-everywhere-src-$qt_ver"
 mkdir build 
 Set-Location  build
-../configure -prefix $qt_install_dir -opensource -confirm-license -release -nomake examples -nomake tests -icu -system-zlib -schannel -no-openssl ICU_PREFIX="$vcpkg_dir\packages\icu_arm64-windows" ZLIB_PREFIX="$vcpkg_dir\packages\zlib_arm64-windows"
+../configure -prefix $qt_install_dir -opensource -confirm-license -release -nomake examples -nomake tests -no-icu -system-zlib -schannel -no-openssl ZLIB_PREFIX="$vcpkg_dir\packages\zlib_arm64-windows"
 jom 
 jom install
 

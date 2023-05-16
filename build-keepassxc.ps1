@@ -1,9 +1,9 @@
 $ErrorActionPreference = "Stop"
 
-$env:path += ";$qt_install_dir\bin;$jom_dir;$vcpkg_dir\packages\zlib_arm64-windows\bin;$vcpkg_dir\packages\icu_arm64-windows\bin;$msys2_dir\usr\bin"
+$env:path += ";$qt_install_dir\bin;$jom_dir;$vcpkg_dir\packages\zlib_arm64-windows\bin;$msys2_dir\usr\bin"
 $env:path += ";$msys2_dir\mingw32\bin"
 
-$keepassxc_ver = "2.7.4"
+$keepassxc_ver = "2.7.5"
 $keepassxc_url = "https://github.com/keepassxreboot/keepassxc/releases/download/$keepassxc_ver/keepassxc-$keepassxc_ver-src.tar.xz"
 
 $ProgressPreference = 'SilentlyContinue'

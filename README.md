@@ -34,13 +34,13 @@ In Windows Terminal, set the "Command line" for "Developer PowerShell for VS 202
 
 Open the "Developer PowerShell for VS 2022" in Windows Terminal. Install the dependencies (except Qt) via vcpkg:
 ```
-.\vcpkg.exe install argon2 botan minizip readline zlib libqrencode icu --triplet=arm64-windows
+.\vcpkg.exe install argon2 botan minizip readline zlib libqrencode --triplet=arm64-windows
 ```
 Set up variables
 ```
 $vcpkg_dir="d:\git\vcpkg"
 $jom_dir="d:\jom_1_1_3"
-$qt_install_dir="d:\Qt\Qt_5.15.7_vs2022_arm64"
+$qt_install_dir="d:\Qt\Qt_5.15.9_vs2022_arm64"
 $msys2_dir="d:\msys64"
 $keepassxc_install_dir="d:\keepassxc"
 ```
