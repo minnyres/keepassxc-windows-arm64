@@ -1,5 +1,5 @@
 # keepassxc-windows-arm64
-KeePassXC is a modern, secure, and open-source password manager that stores and manages your most sensitive information. This repository distributes KeePassXC binaries for Windows on ARM64 (WoA).
+[KeePassXC](https://keepassxc.org/) is a modern, secure, and open-source password manager that stores and manages your most sensitive information. This repository distributes KeePassXC binaries for Windows on ARM64 (WoA).
 
 Please go to [releases](https://github.com/minnyres/keepassxc-windows-arm64/releases) for the downloads.
 
