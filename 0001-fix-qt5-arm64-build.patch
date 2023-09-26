@@ -1,0 +1,74 @@
+diff --git a/configure.bat b/configure.bat
+index b34e146f5f..d6d7411dd0 100644
+--- a/configure.bat
++++ b/configure.bat
+@@ -96,6 +96,9 @@ goto doneargs
+     if /i "%~1" == "-make-tool" goto maketool
+     if /i "%~1" == "--make-tool" goto maketool
+ 
++    if /i "%~1" == "-external-hostbindir" goto hosttools
++    if /i "%~1" == "--external-hostbindir" goto hosttools
++
+ :nextarg
+     shift
+     goto doargs
+@@ -144,6 +147,11 @@ goto doneargs
+     set MAKE=%~1
+     goto nextarg
+ 
++:hosttools
++    shift
++    set CFG_HOST_QT_TOOLS_PATH=%~1
++    goto nextarg
++
+ :doneargs
+ 
+ rem Find various executables
+@@ -276,7 +284,9 @@ cd ..
+ 
+ rem Generate qt.conf
+ 
+-> "%QTDIR%\bin\qt.conf" (
++set QTCONFFILE=%QTDIR%\bin\qt.conf
++
++> "%QTCONFFILE%" (
+     @echo [EffectivePaths]
+     @echo Prefix=..
+     @echo [Paths]
+@@ -284,7 +294,7 @@ rem Generate qt.conf
+     @echo HostSpec=%PLATFORM%
+ )
+ if not "%QTDIR%" == "%QTSRC%" (
+-    >> "%QTDIR%\bin\qt.conf" (
++    >> "%QTCONFFILE%" (
+         @echo [EffectiveSourcePaths]
+         @echo Prefix=%QTSRC:\=/%
+     )
+@@ -293,4 +303,8 @@ if not "%QTDIR%" == "%QTSRC%" (
+ rem Launch qmake-based configure
+ 
+ cd "%TOPQTDIR%"
+-"%QTDIR%\bin\qmake.exe" "%TOPQTSRC%" -- %ARGS%
++if "%CFG_HOST_QT_TOOLS_PATH%" == "" (
++       "%QTDIR%\bin\qmake.exe" "%TOPQTSRC%" -- %ARGS%
++) else (
++       "%CFG_HOST_QT_TOOLS_PATH%\qmake.exe" -qtconf "%QTCONFFILE%" "%TOPQTSRC%" -- %ARGS%
++)
+\ No newline at end of file
+diff --git a/mkspecs/common/msvc-desktop.conf b/mkspecs/common/msvc-desktop.conf
+index f5d12f445b..987eb3320e 100644
+--- a/mkspecs/common/msvc-desktop.conf
++++ b/mkspecs/common/msvc-desktop.conf
+@@ -26,6 +26,12 @@ contains(QMAKE_TARGET.arch, x86_64) {
+     QMAKE_COMPILER_DEFINES += _WIN64
+ }
+ 
++contains(QMAKE_TARGET.arch, arm64) {
++    DEFINES += WIN64
++    QMAKE_COMPILER_DEFINES += _WIN64
++}
++
++
+ QMAKE_CFLAGS_OPTIMIZE_DEBUG = -Od
+ QMAKE_CFLAGS_OPTIMIZE      = -O2
+ QMAKE_CFLAGS_OPTIMIZE_SIZE = -O1

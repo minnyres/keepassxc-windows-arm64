@@ -1,0 +1,118 @@
+name: Build for Windows ARM64
+
+on:
+  push:
+
+jobs:
+  build-windows-arm64:
+    name: Build
+    runs-on: windows-latest
+    env:
+      qt_version: "5.15.10"
+      qt_path: "${{ github.workspace }}/qt-${{ env.qt_version }}"
+      keepassxc_version: "2.7.6"
+      keepassxc_path: "${{ github.workspace }}/keepassxc-windows-arm64"
+
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup devcmd
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64_arm64
+
+      - name: Install MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            gperf  
+            bison
+            flex
+            mingw-w64-i686-asciidoctor
+
+      - name: Install build tools
+        run: |
+          choco install jom 
+
+      # use the preinstalled vcpkg from image
+      # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md#package-management
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v10
+        with:
+          vcpkgDirectory: C:/vcpkg
+          doNotUpdateVcpkg: true  # the preinstalled vcpkg is updated regularly
+
+      - name: Install dependencies from vcpkg
+        run: |
+          # clear buildtrees after each package installation to reduce disk space requirements
+          $packages = `
+            "argon2:arm64-windows",
+            "zlib:arm64-windows",
+            "botan:arm64-windows",
+            "minizip:arm64-windows",
+            "readline:arm64-windows",
+            "libqrencode:arm64-windows"
+          ${{ env.RUNVCPKG_VCPKG_ROOT }}/vcpkg.exe upgrade `
+            --no-dry-run
+          ${{ env.RUNVCPKG_VCPKG_ROOT }}/vcpkg.exe install `
+            --clean-after-build `
+            $packages
+
+      - name: Install Qt (host x64)
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: "5.15.2"
+          archives: 'qtbase qtsvg qttools qtimageformats qttranslations'
+          set-env: 'false'
+          dir: 'C:'
+
+      - name: Install Qt (target arm64)
+        run: |
+          $env:path += ";C:\msys64\usr\bin;C:\msys64\mingw32\bin"
+          git clone https://github.com/qt/qt5.git qt5
+          cd qt5
+          git checkout "v${{ env.qt_version }}-lts-lgpl"
+          perl init-repository --module-subset=qtbase,qtsvg,qttools,qtimageformats,qttranslations
+          cd qtbase
+          git apply ${{ github.workspace }}/0001-fix-qt5-arm64-build.patch
+          cd ..
+          ./configure -opensource -confirm-license -nomake tests -nomake examples `
+            -schannel -no-openssl -no-icu -system-zlib -qt-sqlite -sql-sqlite -no-sql-mysql -no-sql-odbc -no-sql-psql `
+            -release -platform win32-msvc -xplatform win32-arm64-msvc2017 `
+            -prefix "${{ env.qt_path }}" -external-hostbindir "C:/Qt/5.15.2/msvc2019_64/bin"  `
+             ZLIB_PREFIX="${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows"
+          jom
+          jom install
+          
+      - name: Install KeePassXC
+        run: |
+          $env:path += ";C:\msys64\usr\bin;C:\msys64\mingw32\bin"
+          git clone `
+            --branch ${{ env.keepassxc_version }} `
+            --depth 1 `
+            https://github.com/keepassxreboot/keepassxc.git
+          cd keepassxc
+          cmake `
+            -B build `
+            -G "Ninja" `
+            -DCMAKE_BUILD_TYPE=Release `
+            -DCMAKE_INSTALL_PREFIX="${{ env.keepassxc_path }}" `
+            -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/win64-arm-toolchain.cmake" `
+            -DVCPKG_TARGET_TRIPLET=arm64-windows `
+            -DCMAKE_PREFIX_PATH="${{ env.qt_path }}" 
+          cmake --build build
+          cmake --install build        
+
+      - name: Prepare build artifacts
+        run: |
+          mkdir upload
+          copy -r "${{ env.keepassxc_path }}"  upload
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: KeePassXC_${{ env.keepassxc_version }}_arm64
+          path: upload
