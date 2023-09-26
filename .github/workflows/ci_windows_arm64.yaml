@@ -9,7 +9,7 @@ jobs:
     runs-on: windows-latest
     env:
       qt_version: "5.15.10"
-      qt_path: "${{ github.workspace }}/qt-${{ env.qt_version }}"
+      qt_path: "${{ github.workspace }}/qt-msvc-arm64"
       keepassxc_version: "2.7.6"
       keepassxc_path: "${{ github.workspace }}/keepassxc-windows-arm64"
 
