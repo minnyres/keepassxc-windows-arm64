@@ -31,11 +31,11 @@ jobs:
             gperf  
             bison
             flex
-            mingw-w64-x86_64-asciidoctor
 
       - name: Install build tools
         run: |
           choco install jom 
+          gem install asciidoctor
 
       # use the preinstalled vcpkg from image
       # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md#package-management
@@ -71,7 +71,7 @@ jobs:
 
       - name: Install Qt (target arm64)
         run: |
-          $env:path += ";${{ runner.temp }}/msys64/mingw64/bin;${{ runner.temp }}/msys64/usr/bin"
+          $env:path += ";${{ runner.temp }}/msys64/usr/bin"
           git clone https://github.com/qt/qt5.git qt5
           cd qt5
           git checkout "v${{ env.qt_version }}-lts-lgpl"
@@ -89,7 +89,7 @@ jobs:
           
       - name: Install KeePassXC
         run: |
-          $env:path += ";${{ runner.temp }}/msys64/mingw64/bin;${{ runner.temp }}/msys64/usr/bin"
+          $env:path += ";${{ runner.temp }}/msys64/usr/bin"
           git clone `
             --branch ${{ env.keepassxc_version }} `
             --depth 1 `
