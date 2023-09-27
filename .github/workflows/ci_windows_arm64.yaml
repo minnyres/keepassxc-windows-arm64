@@ -31,7 +31,7 @@ jobs:
             gperf  
             bison
             flex
-            mingw-w64-i686-asciidoctor
+            mingw-w64-x86_64-asciidoctor
 
       - name: Install build tools
         run: |
@@ -71,7 +71,7 @@ jobs:
 
       - name: Install Qt (target arm64)
         run: |
-          $env:path += ";C:\msys64\usr\bin;C:\msys64\mingw32\bin"
+          $env:path += ";${{ runner.temp }}/msys64/mingw64/bin;${{ runner.temp }}/msys64/usr/bin"
           git clone https://github.com/qt/qt5.git qt5
           cd qt5
           git checkout "v${{ env.qt_version }}-lts-lgpl"
@@ -89,7 +89,7 @@ jobs:
           
       - name: Install KeePassXC
         run: |
-          $env:path += ";C:\msys64\usr\bin;C:\msys64\mingw32\bin"
+          $env:path += ";${{ runner.temp }}/msys64/mingw64/bin;${{ runner.temp }}/msys64/usr/bin"
           git clone `
             --branch ${{ env.keepassxc_version }} `
             --depth 1 `
