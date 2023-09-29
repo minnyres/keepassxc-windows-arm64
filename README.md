@@ -40,7 +40,7 @@ Set up variables
 ```
 $vcpkg_dir="d:\git\vcpkg"
 $jom_dir="d:\jom_1_1_3"
-$qt_install_dir="d:\Qt\Qt_5.15.9_vs2022_arm64"
+$qt_install_dir="d:\Qt\Qt_5.15.10_vs2022_arm64"
 $msys2_dir="d:\msys64"
 $keepassxc_install_dir="d:\keepassxc"
 ```

@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-$qt_ver = "5.15.9"
+$qt_ver = "5.15.10"
 $qt_main_ver = "5.15"
 $qt_url = "https://download.qt.io/archive/qt/$qt_main_ver/$qt_ver/submodules/"
 $qtbase = "qtbase-everywhere-opensource-src-$qt_ver.zip"
