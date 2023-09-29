@@ -13,7 +13,6 @@ jobs:
       keepassxc_version: "2.7.6"
       keepassxc_path: "${{ github.workspace }}/keepassxc-windows-arm64"
 
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -99,6 +98,7 @@ jobs:
             -B build `
             -G "Ninja" `
             -DCMAKE_BUILD_TYPE=Release `
+            -DWITH_XC_ALL=ON `
             -DCMAKE_INSTALL_PREFIX="${{ env.keepassxc_path }}" `
             -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/win64-arm-toolchain.cmake" `
             -DVCPKG_TARGET_TRIPLET=arm64-windows `
@@ -108,11 +108,28 @@ jobs:
 
       - name: Prepare build artifacts
         run: |
-          mkdir upload
-          copy -r "${{ env.keepassxc_path }}"  upload
+          cd ${{ env.keepassxc_path }}
+          cp ${{ env.qt_path }}/bin/libEGL.dll .
+          cp ${{ env.qt_path }}/bin/libGLESv2.dll .
+          cp ${{ env.qt_path }}/bin/Qt5Concurrent.dll .
+          cp ${{ env.qt_path }}/bin/Qt5Core.dll .
+          cp ${{ env.qt_path }}/bin/Qt5Gui.dll .
+          cp ${{ env.qt_path }}/bin/Qt5Network.dll .
+          cp ${{ env.qt_path }}/bin/Qt5Svg.dll .
+          cp ${{ env.qt_path }}/bin/Qt5Widgets.dll .
+          cp -r ${{ env.qt_path }}/plugins/bearer .
+          cp -r ${{ env.qt_path }}/plugins/iconengines .
+          cp -r ${{ env.qt_path }}/plugins/imageformats .
+          cp -r ${{ env.qt_path }}/plugins/platforms .
+          cp -r ${{ env.qt_path }}/plugins/styles .
+          cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\zlib1.dll .
+          cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\minizip.dll .
+          cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\qrencode.dll .
+          cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\argon2.dll .
+          cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\botan.dll .
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: KeePassXC_${{ env.keepassxc_version }}_arm64
-          path: upload
+          path: ${{ env.keepassxc_path }}
