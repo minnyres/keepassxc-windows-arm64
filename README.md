@@ -16,12 +16,7 @@ You need to install the following tools to build KeePassXC yourself.
 + [MSYS2-64bit](https://www.msys2.org/)
 + [vcpkg](https://vcpkg.io/en/index.html)
 
-After installing MSYS2, add this in `/etc/pacman.conf` file
-```
-[clangarm64]
-Include = /etc/pacman.d/mirrorlist.mingw
-```
-and run
+After installing MSYS2, install packages via `pacman`
 ```
 pacman -Syy && pacman -S gperf bison flex mingw-w64-clang-aarch64-cmake mingw-w64-i686-asciidoctor 
 ```
