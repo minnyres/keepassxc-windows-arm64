@@ -8,9 +8,9 @@ jobs:
     name: Build
     runs-on: windows-latest
     env:
-      qt_version: "5.15.10"
+      qt_version: "5.15.13"
       qt_path: "${{ github.workspace }}/qt-msvc-arm64"
-      keepassxc_version: "2.7.6"
+      keepassxc_version: "2.7.7"
       keepassxc_path: "${{ github.workspace }}/keepassxc-windows-arm64"
 
     steps:
@@ -127,9 +127,19 @@ jobs:
           cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\qrencode.dll .
           cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\argon2.dll .
           cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\botan.dll .
+          7z a -mx9 KeePassXC_${{ env.keepassxc_version }}_arm64.zip *
+          mv KeePassXC_${{ env.keepassxc_version }}_arm64.zip ..
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: KeePassXC_${{ env.keepassxc_version }}_arm64
           path: ${{ env.keepassxc_path }}
+
+      - name: Batch release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: KeePassXC_${{ env.keepassxc_version }}_arm64.zip
