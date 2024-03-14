@@ -1,4 +1,4 @@
-include("C:/vcpkg/scripts/buildsystems/vcpkg.cmake")
+# include("C:/vcpkg/scripts/buildsystems/vcpkg.cmake")
 
 macro(_add_imported_target target_name file)
     if (NOT EXISTS "${file}")

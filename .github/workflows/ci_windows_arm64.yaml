@@ -101,8 +101,7 @@ jobs:
             -DWITH_XC_ALL=ON `
             -DCMAKE_INSTALL_PREFIX="${{ env.keepassxc_path }}" `
             -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/win64-arm-toolchain.cmake" `
-            -DVCPKG_TARGET_TRIPLET=arm64-windows `
-            -DCMAKE_PREFIX_PATH="${{ env.qt_path }}" 
+            -DCMAKE_PREFIX_PATH="${{ env.qt_path }};${{ env.RUNVCPKG_VCPKG_ROOT }}/installed/x64-windows" 
           cmake --build build
           cmake --install build        
 
