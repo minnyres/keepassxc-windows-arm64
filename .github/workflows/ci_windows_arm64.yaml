@@ -94,6 +94,7 @@ jobs:
             --depth 1 `
             https://github.com/keepassxreboot/keepassxc.git
           cd keepassxc
+          cp ${{ github.workspace }}/FindQREncode.cmake cmake/FindQREncode.cmake
           cmake `
             -B build `
             -G "Ninja" `
