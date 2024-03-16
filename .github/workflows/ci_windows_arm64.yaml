@@ -79,8 +79,8 @@ jobs:
           
       - name: Install KeePassXC
         run: |
-          $env:path = $env:path.replace("C:\mingw64\bin","")
-          $env:path = $env:path.replace("C:\Strawberry\c\bin","")
+          $env:path = $env:path.replace("C:\mingw64\bin;","")
+          $env:path = $env:path.replace("C:\Strawberry\c\bin;","")
           git clone `
             --branch ${{ env.keepassxc_version }} `
             --depth 1 `
@@ -119,7 +119,7 @@ jobs:
           cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\minizip.dll .
           cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\qrencode.dll .
           cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\argon2.dll .
-          cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\botan.dll .
+          cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\botan*.dll .
           7z a -mx9 KeePassXC_${{ env.keepassxc_version }}_arm64.zip *
           mv KeePassXC_${{ env.keepassxc_version }}_arm64.zip ..
 
