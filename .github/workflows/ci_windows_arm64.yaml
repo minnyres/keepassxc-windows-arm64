@@ -99,6 +99,7 @@ jobs:
             -B build `
             -G "Ninja" `
             -DCMAKE_BUILD_TYPE=Release `
+            -DWITH_TESTS=OFF `
             -DWITH_XC_ALL=ON `
             -DCMAKE_INSTALL_PREFIX="${{ env.keepassxc_path }}" `
             -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/win64-arm-toolchain.cmake" `
