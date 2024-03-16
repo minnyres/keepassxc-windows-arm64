@@ -102,6 +102,8 @@ jobs:
       - name: Prepare build artifacts
         run: |
           cd ${{ env.keepassxc_path }}
+          rm libssl*.dll
+          rm libcrypto*.dll
           cp ${{ env.qt_path }}/bin/libEGL.dll .
           cp ${{ env.qt_path }}/bin/libGLESv2.dll .
           cp ${{ env.qt_path }}/bin/Qt5Concurrent.dll .
