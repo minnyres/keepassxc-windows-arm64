@@ -5,9 +5,13 @@ Please go to [releases](https://github.com/minnyres/keepassxc-windows-arm64/rele
 
 ## How to build
 
-It is natively built on Windows 11 ARM64.
+### Cross compile on Windows x64
 
-### Preparations
+There is a [workflow file](https://github.com/minnyres/keepassxc-windows-arm64/blob/main/.github/workflows/ci_windows_arm64.yaml) to cross compile on Windows x64 with GitHub actions. The third-party libraries are built with vcpkg except Qt5. The key point to build Qt5 is to apply the patch `0001-fix-qt5-arm64-build.patch`.
+
+### Native build on Windows 11 ARM64
+
+#### Preparations
 
 You need to install the following tools to build KeePassXC yourself.
 + [Visual Studio 2022 on ARM64](https://devblogs.microsoft.com/visualstudio/arm64-visual-studio-is-officially-here/)
@@ -25,7 +29,7 @@ In Windows Terminal, set the "Command line" for "Developer PowerShell for VS 202
 
 ![terminal](https://user-images.githubusercontent.com/40790553/204278525-3034871a-4afb-49b3-84de-5b2398ba9434.png)
 
-### Build 
+#### Build 
 
 Open the "Developer PowerShell for VS 2022" in Windows Terminal. Install the dependencies (except Qt) via vcpkg:
 ```
