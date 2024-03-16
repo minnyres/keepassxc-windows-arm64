@@ -22,15 +22,6 @@ jobs:
         with:
           arch: amd64_arm64
 
-      - name: Install MSYS2
-        uses: msys2/setup-msys2@v2
-        with:
-          update: true
-          install: >-
-            gperf  
-            bison
-            flex
-
       - name: Install build tools
         run: |
           choco install jom 
@@ -88,7 +79,8 @@ jobs:
           
       - name: Install KeePassXC
         run: |
-          $env:path += ";${{ runner.temp }}/msys64/usr/bin"
+          $env:path = $env:path.replace("C:\mingw64\bin","")
+          $env:path = $env:path.replace("C:\Strawberry\c\bin","")
           git clone `
             --branch ${{ env.keepassxc_version }} `
             --depth 1 `
