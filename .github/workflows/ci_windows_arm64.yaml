@@ -51,13 +51,10 @@ jobs:
             --clean-after-build `
             $packages
 
-      - name: Install Qt (host x64)
-        uses: jurplel/install-qt-action@v3
+      - name: Setup devcmd
+        uses: ilammy/msvc-dev-cmd@v1
         with:
-          version: "5.15.2"
-          archives: 'qtbase qtsvg qttools qtimageformats qttranslations'
-          set-env: 'false'
-          dir: 'C:'
+          arch: amd64
 
       - name: Install Qt (target arm64)
         run: |
@@ -66,16 +63,17 @@ jobs:
           cd qt5
           git checkout "v${{ env.qt_version }}-lts-lgpl"
           perl init-repository --module-subset=qtbase,qtsvg,qttools,qtimageformats,qttranslations
-          cd qtbase
-          git apply ${{ github.workspace }}/0001-fix-qt5-arm64-build.patch
-          cd ..
           ./configure -opensource -confirm-license -nomake tests -nomake examples `
-            -schannel -no-openssl -no-icu -system-zlib -qt-sqlite -sql-sqlite -no-sql-mysql -no-sql-odbc -no-sql-psql `
-            -release -platform win32-msvc -xplatform win32-arm64-msvc2017 `
-            -prefix "${{ env.qt_path }}" -external-hostbindir "C:/Qt/5.15.2/msvc2019_64/bin"  `
-             ZLIB_PREFIX="${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows"
+            -schannel -no-icu -system-zlib -qt-sqlite -sql-sqlite -no-sql-mysql -no-sql-odbc -no-sql-psql `
+            -release -platform win32-msvc -xplatform win32-arm64-msvc2017 -prefix "${{ env.qt_path }}" `
+            ZLIB_PREFIX="${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows"
           jom
           jom install
+
+      - name: Setup devcmd
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64_arm64
           
       - name: Install KeePassXC
         run: |
@@ -94,7 +92,6 @@ jobs:
             -DWITH_TESTS=OFF `
             -DWITH_XC_ALL=ON `
             -DCMAKE_INSTALL_PREFIX="${{ env.keepassxc_path }}" `
-            -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/win64-arm-toolchain.cmake" `
             -DCMAKE_PREFIX_PATH="${{ env.qt_path }};${{ env.RUNVCPKG_VCPKG_ROOT }}/installed/arm64-windows" 
           cmake --build build
           cmake --install build        
@@ -104,19 +101,7 @@ jobs:
           cd ${{ env.keepassxc_path }}
           rm libssl*.dll
           rm libcrypto*.dll
-          cp ${{ env.qt_path }}/bin/libEGL.dll .
-          cp ${{ env.qt_path }}/bin/libGLESv2.dll .
-          cp ${{ env.qt_path }}/bin/Qt5Concurrent.dll .
-          cp ${{ env.qt_path }}/bin/Qt5Core.dll .
-          cp ${{ env.qt_path }}/bin/Qt5Gui.dll .
-          cp ${{ env.qt_path }}/bin/Qt5Network.dll .
-          cp ${{ env.qt_path }}/bin/Qt5Svg.dll .
-          cp ${{ env.qt_path }}/bin/Qt5Widgets.dll .
-          cp -r ${{ env.qt_path }}/plugins/bearer .
-          cp -r ${{ env.qt_path }}/plugins/iconengines .
-          cp -r ${{ env.qt_path }}/plugins/imageformats .
-          cp -r ${{ env.qt_path }}/plugins/platforms .
-          cp -r ${{ env.qt_path }}/plugins/styles .
+          rm vc_redist*.exe
           cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\zlib1.dll .
           cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\minizip.dll .
           cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\qrencode.dll .
