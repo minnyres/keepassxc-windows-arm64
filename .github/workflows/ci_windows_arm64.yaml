@@ -10,7 +10,7 @@ jobs:
     env:
       qt_version: "5.15.12"
       qt_path: "${{ github.workspace }}/qt-msvc-arm64"
-      keepassxc_version: "2.7.8"
+      keepassxc_version: "2.7.9"
       keepassxc_path: "${{ github.workspace }}/keepassxc-windows-arm64"
 
     steps:
@@ -107,6 +107,7 @@ jobs:
           cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\qrencode.dll .
           cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\argon2.dll .
           cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\botan*.dll .
+          cp ${{ env.RUNVCPKG_VCPKG_ROOT }}\installed\arm64-windows\bin\readline.dll
           7z a -mx9 KeePassXC_${{ env.keepassxc_version }}_arm64.zip *
           mv KeePassXC_${{ env.keepassxc_version }}_arm64.zip ..
 
