@@ -7,7 +7,7 @@ Please go to [releases](https://github.com/minnyres/keepassxc-windows-arm64/rele
 
 ### Cross compile on Windows x64
 
-There is a [workflow file](https://github.com/minnyres/keepassxc-windows-arm64/blob/main/.github/workflows/ci_windows_arm64.yaml) to cross compile on Windows x64 with GitHub actions. The third-party libraries are built with vcpkg except Qt5. The key point to build Qt5 is to apply the patch `0001-fix-qt5-arm64-build.patch`.
+There is a [workflow file](https://github.com/minnyres/keepassxc-windows-arm64/blob/main/.github/workflows/ci_windows_arm64.yaml) to cross compile on Windows x64 with GitHub actions. The third-party libraries are built with vcpkg except Qt5.
 
 ### Native build on Windows 11 ARM64
 
