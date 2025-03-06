@@ -112,7 +112,7 @@ jobs:
           mv KeePassXC_${{ env.keepassxc_version }}_arm64.zip ..
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: KeePassXC_${{ env.keepassxc_version }}_arm64
           path: ${{ env.keepassxc_path }}
