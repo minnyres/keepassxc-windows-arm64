@@ -10,7 +10,7 @@ jobs:
     env:
       qt_version: "5.15.16"
       qt_path: "${{ github.workspace }}/qt-msvc-arm64"
-      keepassxc_version: "2.7.10"
+      keepassxc_version: "2.7.11"
       keepassxc_path: "${{ github.workspace }}/keepassxc-windows-arm64"
 
     steps:
@@ -30,10 +30,10 @@ jobs:
       # use the preinstalled vcpkg from image
       # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md#package-management
       - name: Setup vcpkg
-        uses: lukka/run-vcpkg@v10
+        uses: lukka/run-vcpkg@v11
         with:
           vcpkgDirectory: C:/vcpkg
-          doNotUpdateVcpkg: true  # the preinstalled vcpkg is updated regularly
+          vcpkgGitCommitId: '84bab45d415d22042bd0b9081aea57f362da3f35'
 
       - name: Install dependencies from vcpkg
         run: |
