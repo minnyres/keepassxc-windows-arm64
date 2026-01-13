@@ -112,13 +112,13 @@ jobs:
           mv KeePassXC_${{ env.keepassxc_version }}_arm64.zip ..
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: KeePassXC_${{ env.keepassxc_version }}_arm64
           path: ${{ env.keepassxc_path }}
 
       - name: Batch release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
