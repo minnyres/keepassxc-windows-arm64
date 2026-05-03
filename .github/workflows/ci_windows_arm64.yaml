@@ -10,7 +10,7 @@ jobs:
     env:
       qt_version: "5.15.18"
       qt_path: "${{ github.workspace }}/qt-msvc-arm64"
-      keepassxc_version: "2.7.11"
+      keepassxc_version: "2.7.12"
       keepassxc_path: "${{ github.workspace }}/keepassxc-windows-arm64"
 
     steps:
@@ -33,7 +33,7 @@ jobs:
         uses: lukka/run-vcpkg@v11
         with:
           vcpkgDirectory: C:/vcpkg
-          vcpkgGitCommitId: '84bab45d415d22042bd0b9081aea57f362da3f35'
+          vcpkgGitCommitId: '56bb2411609227288b70117ead2c47585ba07713'
 
       - name: Install dependencies from vcpkg
         run: |
