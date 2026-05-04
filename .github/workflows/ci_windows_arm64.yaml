@@ -10,7 +10,7 @@ jobs:
     env:
       qt_version: "5.15.18"
       qt_path: "${{ github.workspace }}/qt-msvc-arm64"
-      keepassxc_version: "2.7.11"
+      keepassxc_version: "2.7.12"
       keepassxc_path: "${{ github.workspace }}/keepassxc-windows-arm64"
 
     steps:
